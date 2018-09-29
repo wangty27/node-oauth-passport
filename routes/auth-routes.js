@@ -13,7 +13,7 @@ router.get('/login', (req, res) => {
 router.get('/logout', (req, res) => {
   // handle with passport
   req.logout();
-  req.session = null;
+  req.session.destroy();
   res.redirect('/');
 });
 
@@ -23,7 +23,7 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 // callback route for google to redirect to
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+router.get('/google/redirect', passport.authenticate('google', { failureRedirect: '/auth/login' }), (req, res) => {
   res.redirect('/profile');
 });
 
